@@ -4,7 +4,7 @@
 function! Buffalo(...)
   "echom 1
   let cmdline = getcmdline()
-  if cmdline !~ '\C^b\%[uffer]'
+  if cmdline !~ '\C^b\%[uffer]\>'
     "echom 2
     return ' '
   endif
