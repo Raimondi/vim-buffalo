@@ -19,7 +19,9 @@ function! Buffalo(...)
     let char = nr2char(char)
   endif
   if char =~ '^\s*$'
-    return char
+    call feedkeys(' ', 'n')
+    call feedkeys("\<C-D>\<C-G>")
+    return ''
   endif
   let partial = matchstr(cmdline, '^\a\+\s\+\zs.*') . char
   " fnameescape() doesn't escape '.'
