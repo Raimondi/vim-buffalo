@@ -18,17 +18,17 @@ function! Buffalo(...)
   if char =~ '\d\+'
     let char = nr2char(char)
   endif
-  let partial = matchstr(cmdline, '^\a\+ \zs.*').char
-  let filter = 'v:val["name"] =~ "' . partial . '"'
-  echom 'Filter: '.filter
+  let partial = matchstr(cmdline, '^\a\+ \zs.*') . char
+  let filter = 'fnamemodify(v:val["name"], ":p") =~ "' . escape(partial, '\\\/.*$^~[]') . '"'
+  "echom 'Filter: '.filter
   let bl = g:bl.filter(filter)
-  echom bl.to_s()
+  "echom bl.to_s()
   if len(bl.buffers) == 1
     "echom 5
-    return char."\<CR>\<CR>"
+    return char . "\<CR>\<CR>"
   else
     "echom 6
-    call feedkeys(char."\<C-D>\<C-G>")
+    call feedkeys(char . "\<C-D>\<C-G>")
     return ""
   endif
 endfunction
