@@ -26,7 +26,7 @@ function! Buffalo(...)
   "echom 'Filter: '.filter
   let bl = g:bl.filter(filter)
   "echom bl.to_s()
-  if len(bl.buffers) == 1
+  if len(bl.buffers().to_l()) == 1
     "echom 5
     let cmd = matchstr(cmdline, cmdre . '\s\+')
     let args = matchstr(cmdline, cmdre . '\s\+\zs.*') . char
