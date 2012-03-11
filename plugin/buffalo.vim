@@ -4,7 +4,8 @@
 function! Buffalo(...)
   "echom 1
   let cmdline = getcmdline()
-  if cmdline !~ '\C^b\%[uffer]\>'
+  let cmdre = '\C^b\%[uffer]\>'
+  if cmdline !~ cmdre
     "echom 2
     return ' '
   endif
@@ -18,11 +19,6 @@ function! Buffalo(...)
   if char =~ '^\d\+$'
     let char = nr2char(char)
   endif
-  if char =~ '^\s*$'
-    call feedkeys(' ', 'n')
-    call feedkeys("\<C-D>\<C-G>")
-    return ''
-  endif
   let partial = matchstr(cmdline, '^\a\+\s\+\zs.*') . char
   " fnameescape() doesn't escape '.'
   " second escape of '\\' because enclosed in ""
@@ -32,10 +28,15 @@ function! Buffalo(...)
   "echom bl.to_s()
   if len(bl.buffers) == 1
     "echom 5
-    return char . "\<CR>\<CR>"
+    let cmd = matchstr(cmdline, cmdre . '\s\+')
+    let args = matchstr(cmdline, cmdre . '\s\+\zs.*') . char
+    let cmdline = "\<C-U>". cmd . escape(args, ' ')
+    call feedkeys(cmdline . "\<CR>\<CR>", 'n')
+    return ''
   else
     "echom 6
-    call feedkeys(char . "\<C-D>\<C-G>")
+    call feedkeys(char, 'n')
+    call feedkeys("\<C-D>\<C-G>")
     return ""
   endif
 endfunction
