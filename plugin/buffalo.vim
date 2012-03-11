@@ -15,11 +15,16 @@ function! Buffalo(...)
     return ' '
   endif
   let char = getchar()
-  if char =~ '\d\+'
+  if char =~ '^\d\+$'
     let char = nr2char(char)
   endif
-  let partial = matchstr(cmdline, '^\a\+ \zs.*') . char
-  let filter = 'fnamemodify(v:val["name"], ":p") =~ "' . escape(partial, '\\\/.*$^~[]') . '"'
+  if char =~ '^\s*$'
+    return char
+  endif
+  let partial = matchstr(cmdline, '^\a\+\s\+\zs.*') . char
+  " fnameescape() doesn't escape '.'
+  " second escape of '\\' because enclosed in ""
+  let filter = 'fnamemodify(v:val["name"], ":p") =~ "' . escape(escape(fnameescape(partial), '.'), '\\') . '"'
   "echom 'Filter: '.filter
   let bl = g:bl.filter(filter)
   "echom bl.to_s()
@@ -35,4 +40,4 @@ endfunction
 
 cnore <expr> <C-G> Buffalo(1)
 cnoremap <expr> <Space> Buffalo()
-nore <Leader>l :<C-U>call feedkeys(' ')<CR>:ls<CR>:b
+nnoremap <Leader>l :<c-u>call feedkeys("\<space>\<c-d>")<cr>:b
