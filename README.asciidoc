@@ -1,6 +1,8 @@
 The Buffalo
 -----------
 
+NOTE: The buffalo does not currently work on Vim 7.3 patch 154 and below.
+
 NOTE: The buffalo depends on https://github.com/dahu/vimple
 
 The buffalo is a minimalist buffer switcher for Vim. Based on the
