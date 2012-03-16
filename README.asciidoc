@@ -1,0 +1,20 @@
+The Buffalo
+-----------
+
+NOTE: The buffalo depends on https://github.com/dahu/vimple
+
+The buffalo is a minimalist buffer switcher for Vim. Based on the
+principle that flying is faster than cycling, we believe that you
+should not be using :bprev and :bnext (even bound to handy keys)
+because that is slower than using the builtin Vim buffer list (:ls)
+and buffer switcher (:b). The builtin :b command can switch to a
+buffer by number or by partial buffer name match. It even supports
+fuzzy matching.
+
+The buffalo uses Vim's ctrl-d command to show partial matches as well
+as the :b command to automatically switch when a single unique buffer
+name matches the typed partial - without the user needing to press
+<Enter>.
+
+If you know your buffer number, you can still switch by buffer number
+using the buffalo.
