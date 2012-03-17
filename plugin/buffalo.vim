@@ -61,7 +61,6 @@ function! s:buffalo_feed()
     let trigger = g:buffalo_aux_map
   endif
   let map = ":\<C-U>".'call feedkeys("\<Space>'.trigger.'")'."\<CR>:b"
-  echom map
   return map
 endfunction
 
