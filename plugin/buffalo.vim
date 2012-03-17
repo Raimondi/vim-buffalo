@@ -25,7 +25,8 @@ function! s:buffalo(...)
   let cmdline = getcmdline()
   let cmdre = '\C^b\%[uffer]\>'
   if cmdline !~ cmdre
-    return ' '
+    call feedkeys(' ', 'n')
+    return ''
   endif
   if !a:0
     call g:bl.update()
