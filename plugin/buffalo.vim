@@ -70,16 +70,16 @@ cnore <expr> <Plug>BuffaloRecursive <SID>buffalo(1)
 nnore <expr> <Plug>BuffaloTrigger   <SID>buffalo_feed()
 
 if !hasmapto('<Plug>BuffaloSpace')
-  cmap <unique><silent> <Space> <Plug>BuffaloSpace
+  silent! cmap <unique><silent> <Space> <Plug>BuffaloSpace
 endif
 
 if !hasmapto('<Plug>BuffaloTrigger')
-  nmap <unique><silent> <leader>l <Plug>BuffaloTrigger
+  silent! nmap <unique><silent> <leader>l <Plug>BuffaloTrigger
 endif
 
 if !hasmapto('<Plug>BuffaloRecursive')
   if !exists('g:buffalo_aux_map')
-    cmap <unique><silent> <C-G> <Plug>BuffaloRecursive
+    silent! cmap <unique><silent> <C-G> <Plug>BuffaloRecursive
   else
     exec 'silent! cmap <unique><silent> ' . g:buffalo_aux_map . ' <Plug>BuffaloTrigger'
   endif
