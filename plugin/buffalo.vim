@@ -65,12 +65,11 @@ function! s:buffalo_feed()
   return map
 endfunction
 
-cnore <expr> <Plug>BuffaloSpace     <SID>buffalo()
 cnore <expr> <Plug>BuffaloRecursive <SID>buffalo(1)
 nnore <expr> <Plug>BuffaloTrigger   <SID>buffalo_feed()
 
-if !hasmapto('<Plug>BuffaloSpace')
-  silent! cmap <unique><silent> <Space> <Plug>BuffaloSpace
+if !hasmapto('<SID>buffalo()')
+  cmap <unique><silent><expr> <Space> <SID>buffalo()
 endif
 
 if !hasmapto('<Plug>BuffaloTrigger')
