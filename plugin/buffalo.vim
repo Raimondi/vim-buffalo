@@ -8,17 +8,18 @@
 " License:	Vim License (see :help license)
 " Location:	plugin/buffalo.vim
 
+" Allow use of line continuation.
+let s:save_cpo = &cpo
+set cpo&vim
+
 if exists("g:loaded_buffalo")
       \ || v:version < 703
       \ || v:version == 703 && !has('patch338')
       \ || &compatible
+  let &cpo = s:save_cpo
   finish
 endif
 let g:loaded_buffalo = 1
-
-" Allow use of line continuation.
-let s:save_cpo = &cpo
-set cpo&vim
 
 function! s:buffalo(...)
   let cmdline = getcmdline()
