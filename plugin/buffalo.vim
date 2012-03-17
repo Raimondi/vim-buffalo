@@ -73,14 +73,14 @@ if !hasmapto('<Plug>BuffaloSpace')
 endif
 
 if !hasmapto('<Plug>BuffaloTrigger')
-  silent! nmap <unique><silent> <leader>l <Plug>BuffaloTrigger
+  nmap <unique><silent> <leader>l <Plug>BuffaloTrigger
 endif
 
 if !hasmapto('<Plug>BuffaloRecursive')
   if !exists('g:buffalo_aux_map')
-    silent! cmap <unique><silent> <C-G> <Plug>BuffaloRecursive
+    cmap <unique><silent> <C-G> <Plug>BuffaloRecursive
   else
-    exec 'silent! cmap <unique><silent> ' . g:buffalo_aux_map . ' <Plug>BuffaloTrigger'
+    exec 'cmap <unique><silent> ' . g:buffalo_aux_map . ' <Plug>BuffaloTrigger'
   endif
 endif
 
