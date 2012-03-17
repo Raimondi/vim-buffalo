@@ -1,7 +1,7 @@
 The Buffalo
 -----------
 
-NOTE: The buffalo does not currently work on Vim 7.3 patch 154 and below.
+NOTE: The buffalo requires Vim 7.3 with patch 338 to perform its magic.
 
 NOTE: The buffalo depends on https://github.com/dahu/vimple
 
