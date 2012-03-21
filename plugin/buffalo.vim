@@ -30,7 +30,7 @@ function! s:buffalo(...)
     return ''
   endif
   if !a:0
-    call g:bl.update()
+    call g:vimple#bl.update()
     call feedkeys(s:aux_map)
     return ' '
   endif
@@ -42,7 +42,7 @@ function! s:buffalo(...)
   " fnameescape() doesn't escape '.'
   " second escape of '\\' because enclosed in ""
   let filter = 'fnamemodify(v:val["name"], ":p") =~ "' . escape(escape(fnameescape(partial), '.'), '\\') . '"'
-  let bl = g:bl.filter(filter)
+  let bl = g:vimple#bl.filter(filter)
   if len(bl.buffers().to_l()) == 1
     let cmd = matchstr(cmdline, cmdre . '\s\+')
     let args = matchstr(cmdline, cmdre . '\s\+\zs.*') . char
@@ -57,8 +57,11 @@ function! s:buffalo(...)
 endfunction
 
 function! s:buffalo_feed()
+  if !exists('vimple#bl')
+    call vimple#buffer_list#new()
+  endif
   if !exists('g:buffalo_buffer_numbers') || g:buffalo_buffer_numbers == 1
-    call feedkeys("redraw\<CR>:call bl.print()\<CR>:b\<Space>", 'n')
+    call feedkeys("redraw\<CR>:call vimple#bl.print()\<CR>:b\<Space>", 'n')
     call feedkeys("\<Space>\<BS>")
     return ':'
   endif
