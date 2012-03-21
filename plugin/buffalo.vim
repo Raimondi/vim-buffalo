@@ -58,7 +58,7 @@ endfunction
 
 function! s:buffalo_feed()
   if !exists('g:buffalo_buffer_numbers') || g:buffalo_buffer_numbers == 1
-    call feedkeys("redraw\<CR>:ls\<CR>:b\<Space>", 'n')
+    call feedkeys("redraw\<CR>:call bl.print()\<CR>:b\<Space>", 'n')
     call feedkeys("\<Space>\<BS>")
     return ':'
   endif
