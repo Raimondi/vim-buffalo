@@ -20,6 +20,7 @@ if exists("g:loaded_buffalo")
   finish
 endif
 let g:loaded_buffalo = 1
+let s:aux_map = exists('g:buffalo_aux_map') ? g:buffalo_aux_map : "\<C-G>"
 
 function! s:buffalo(...)
   let cmdline = getcmdline()
@@ -30,7 +31,7 @@ function! s:buffalo(...)
   endif
   if !a:0
     call g:bl.update()
-    call feedkeys("\<C-G>")
+    call feedkeys(s:aux_map)
     return ' '
   endif
   let char = getchar()
@@ -50,19 +51,18 @@ function! s:buffalo(...)
     return ''
   else
     call feedkeys(char, 'n')
-    call feedkeys("\<C-D>\<C-G>")
+    call feedkeys("\<C-D>".s:aux_map)
     return ""
   endif
 endfunction
 
 function! s:buffalo_feed()
-  echom 1
-  if !exists('g:buffalo_aux_map')
-    let trigger = "\<c-d>"
-  else
-    let trigger = g:buffalo_aux_map
+  if !exists('g:buffalo_buffer_numbers') || g:buffalo_buffer_numbers == 1
+    call feedkeys("redraw\<CR>:ls\<CR>:b\<Space>", 'n')
+    call feedkeys("\<Space>\<BS>")
+    return ':'
   endif
-  let map = ":\<C-U>".'call feedkeys("\<Space>'.trigger.'")'."\<CR>:b"
+  let map = ":\<C-U>".'call feedkeys("\<Space>\<C-D>")'."\<CR>:b"
   return map
 endfunction
 
