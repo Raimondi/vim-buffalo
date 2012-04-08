@@ -38,7 +38,8 @@ function! s:buffalo(...)
   if char =~ '^\d\+$'
     let char = nr2char(char)
   endif
-  let partial = matchstr(cmdline, '^\a\+\s\+\zs.*') . char
+  let partial = matchstr(cmdline, '^\a\+\s\+\zs.*')
+        \ . (char =~'[[:cntrl:]]' ? '' : char)
   " fnameescape() doesn't escape '.'
   " second escape of '\\' because enclosed in ""
   let filter = 'fnamemodify(v:val["name"], ":p") =~ "' . escape(escape(fnameescape(partial), '.'), '\\') . '"'
