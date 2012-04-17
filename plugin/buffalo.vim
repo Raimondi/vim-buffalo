@@ -55,12 +55,22 @@ function! s:buffalo(...)
     let args = matchstr(cmdline, cmdre . '\s\+\zs.*') . char
     let cmdline = "\<C-U>". cmd . escape(args, ' ') . "\<CR>\<CR>"
     call feedkeys(cmdline, 'n')
-    return ''
+  elseif exists('g:buffalo_pretty') && g:buffalo_pretty
+    " Use print() to display matching buffers.
+    let cmdline = empty(bl.buffers().to_l())
+          \ ? ''
+          \ : "call vimple#bl.filter(".string(filter).").print()\<CR>:"
+          \   . cmdline
+    call feedkeys("\<C-U>" . cmdline . char, 'n')
+    call feedkeys(s:aux_map)
   else
+    " Use wild settings to display matching buffers.
     call feedkeys(char, 'n')
-    call feedkeys((len(bl.buffers().to_l()) == 0 ? '' : "\<C-D>").s:aux_map)
-    return ""
+    call feedkeys(
+          \ (empty(bl.buffers().to_l()) ? '' : "\<C-D>")
+          \ . s:aux_map)
   endif
+  return ''
 endfunction
 
 function! s:buffalo_feed()
