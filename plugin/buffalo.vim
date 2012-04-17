@@ -40,6 +40,11 @@ function! s:buffalo(...)
   endif
   let partial = matchstr(cmdline, '^\a\+\s\+\zs.*')
         \ . (char =~'[[:cntrl:]]' ? '' : char)
+  if char2nr(char) == 128
+    " Backspace, remove the last char.
+    " TODO: Make sure it works on different OSes.
+    let partial = matchstr(partial, '^.*\ze.')
+  endif
   " fnameescape() doesn't escape '.'
   " second escape of '\\' because enclosed in ""
   let filter = 'fnamemodify(v:val["name"], ":p") =~ "' . escape(escape(fnameescape(partial), '.'), '\\') . '"'
