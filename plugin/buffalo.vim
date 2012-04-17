@@ -41,6 +41,11 @@ function! s:buffalo(...)
   if char =~ '^\d\+$'
     let char = nr2char(char)
   endif
+  if char =~ '\e'
+    " Cancel action with Esc.
+    call feedkeys("\<C-U>\<Esc>", 't')
+    return ''
+  endif
   let partial = matchstr(cmdline, '^\a\+\s\+\zs.*')
         \ . (char =~'[[:cntrl:]]' ? '' : char)
   if char2nr(char) == 128
