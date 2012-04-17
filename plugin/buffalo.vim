@@ -45,10 +45,11 @@ function! s:buffalo(...)
   let filter = 'fnamemodify(v:val["name"], ":p") =~ "' . escape(escape(fnameescape(partial), '.'), '\\') . '"'
   let bl = g:vimple#bl.filter(filter)
   if len(bl.buffers().to_l()) == 1
+        \ && (!exists('g:buffalo_autoaccept') || g:buffalo_autoaccept)
     let cmd = matchstr(cmdline, cmdre . '\s\+')
     let args = matchstr(cmdline, cmdre . '\s\+\zs.*') . char
-    let cmdline = "\<C-U>". cmd . escape(args, ' ')
-    call feedkeys(cmdline . "\<CR>\<CR>", 'n')
+    let cmdline = "\<C-U>". cmd . escape(args, ' ') . "\<CR>\<CR>"
+    call feedkeys(cmdline, 'n')
     return ''
   else
     call feedkeys(char, 'n')
