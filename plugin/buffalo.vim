@@ -4,7 +4,7 @@
 " Maintainers:	Barry Arthur
 "		Israel Chauca <israelchauca@gmail.com>
 " Version:	0.1
-" Last Change:	2012-03-16
+" Last Change:	2012-04-17
 " License:	Vim License (see :help license)
 " Location:	plugin/buffalo.vim
 
@@ -26,6 +26,7 @@ function! s:buffalo(...)
   let cmdline = getcmdline()
   let cmdre = '\C^b\%[uffer]\>'
   if cmdline !~ cmdre
+    " The command is not :buffer.
     call feedkeys(' ', 'n')
     return ''
   endif
@@ -33,6 +34,7 @@ function! s:buffalo(...)
     call vimple#ls#new()
   endif
   if !a:0
+    " Just a space.
     call g:vimple#bl.update()
     call feedkeys(s:aux_map)
     return ' '
@@ -51,14 +53,17 @@ function! s:buffalo(...)
   if char2nr(char) == 128
     " Backspace, remove the last char.
     " TODO: Make sure it works on different OSes.
+    " TODO char =~ '\b'  doesn't match.
     let partial = matchstr(partial, '^.*\ze.')
   endif
   " fnameescape() doesn't escape '.'
   " second escape of '\\' because enclosed in ""
-  let filter = 'fnamemodify(v:val["name"], ":p") =~ "' . escape(escape(fnameescape(partial), '.'), '\\') . '"'
+  let filter = 'fnamemodify(v:val["name"], ":p") =~ "'
+        \ . escape(escape(fnameescape(partial), '.'), '\\') . '"'
   let bl = g:vimple#bl.filter(filter)
   if len(bl.buffers().to_l()) == 1
         \ && (!exists('g:buffalo_autoaccept') || g:buffalo_autoaccept)
+    " Automagically accept the only match.
     let cmd = matchstr(cmdline, cmdre . '\s\+')
     let args = matchstr(cmdline, cmdre . '\s\+\zs.*') . char
     let cmdline = "\<C-U>". cmd . escape(args, ' ') . "\<CR>\<CR>"
@@ -110,7 +115,8 @@ if !hasmapto('<Plug>BuffaloRecursive')
   if !exists('g:buffalo_aux_map')
     cmap <unique><silent> <C-G> <Plug>BuffaloRecursive
   else
-    exec 'cmap <unique><silent> ' . g:buffalo_aux_map . ' <Plug>BuffaloTrigger'
+    exec 'cmap <unique><silent> ' . g:buffalo_aux_map
+          \ . ' <Plug>BuffaloTrigger'
   endif
 endif
 
