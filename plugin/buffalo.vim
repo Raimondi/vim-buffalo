@@ -47,10 +47,8 @@ function! s:buffalo(...)
   endif
   let partial = matchstr(cmdline, '^\a\+\s\+\zs.*')
         \ . (char =~'[[:cntrl:]]' ? '' : char)
-  if char2nr(char) == 128
+  if char2nr(char) == char2nr("\<BS>")
     " Backspace, remove the last char.
-    " TODO: Make sure it works on different OSes.
-    " TODO char =~ '\b'  doesn't match.
     let partial = matchstr(partial, '^.*\ze.')
   endif
   " fnameescape() doesn't escape '.'
@@ -67,10 +65,10 @@ function! s:buffalo(...)
     call feedkeys(cmdline, 'n')
   elseif exists('g:buffalo_pretty') && g:buffalo_pretty
     " Use print() to display matching buffers.
-    let cmdline = empty(bl.buffers().to_l())
-          \ ? ''
-          \ : "call vimple#bl.filter(".string(filter).").print()\<CR>:"
-          \   . cmdline
+    let cmdline = (empty(bl.buffers().to_l())
+          \   ? ''
+          \   : "call vimple#bl.filter(".string(filter).").print()\<CR>:")
+          \ . cmdline
     call feedkeys("\<C-U>" . cmdline . char, 'n')
     call feedkeys(s:aux_map)
   else
