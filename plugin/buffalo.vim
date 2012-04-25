@@ -52,7 +52,9 @@ function! s:buffalo(...)
     return ''
   else
     call feedkeys(char, 'n')
-    call feedkeys((len(bl.buffers().to_l()) == 0 ? '' : "\<C-D>").s:aux_map)
+    " removed call to <c-d> to prevent stacking prints
+    "call feedkeys((len(bl.buffers().to_l()) == 0 ? '' : "\<C-D>").s:aux_map)
+    call feedkeys(s:aux_map)
     return ""
   endif
 endfunction
