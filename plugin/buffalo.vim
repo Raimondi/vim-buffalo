@@ -29,6 +29,9 @@ function! s:buffalo(...)
     call feedkeys(' ', 'n')
     return ''
   endif
+  if !exists('vimple#bl')
+    call vimple#ls#new()
+  endif
   if !a:0
     call g:vimple#bl.update()
     call feedkeys(s:aux_map)
