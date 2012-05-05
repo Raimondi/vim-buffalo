@@ -51,10 +51,15 @@ function! s:buffalo(...)
     " Backspace, remove the last char.
     let partial = matchstr(partial, '^.*\ze.')
   endif
-  " fnameescape() doesn't escape '.'
-  " second escape of '\\' because enclosed in ""
-  let filter = 'fnamemodify(v:val["name"], ":p") =~ "'
-        \ . escape(escape(fnameescape(partial), '.'), '\\') . '"'
+  if partial =~ '\d\+'
+    " Filter by buffer number when the partial is numeric.
+    let filter = 'v:val["number"] =~ "'.partial.'"'
+  else
+    " fnameescape() doesn't escape '.'
+    " second escape of '\\' because enclosed in ""
+    let filter = 'fnamemodify(v:val["name"], ":p") =~ "'
+          \ . escape(escape(fnameescape(partial), '.'), '\\') . '"'
+  endif
   let bl = g:vimple#bl.filter(filter)
   if len(bl.buffers().to_l()) == 1
         \ && (!exists('g:buffalo_autoaccept') || g:buffalo_autoaccept)
