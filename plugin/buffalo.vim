@@ -56,7 +56,7 @@ function! s:buffalo(...)
     " Backspace, remove the last char.
     let partial = matchstr(partial, '^.*\ze.')
   endif
-  if partial =~ '\d\+'
+  if partial =~ '^\d\+$'
     " Filter by buffer number when the partial is numeric.
     let filter = 'v:val["number"] =~ "'.partial.'"'
   else
@@ -121,7 +121,7 @@ if !hasmapto('<Plug>BuffaloRecursive')
     cmap <unique><silent> <C-G> <Plug>BuffaloRecursive
   else
     exec 'cmap <unique><silent> ' . g:buffalo_aux_map
-          \ . ' <Plug>BuffaloTrigger'
+          \ . ' <Plug>BuffaloRecursive'
   endif
 endif
 
