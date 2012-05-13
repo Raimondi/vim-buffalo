@@ -27,8 +27,10 @@ function! s:buffalo(...)
   let cmdre = '\C^b\%[uffer]\>'
   if cmdline !~ cmdre
     " The command is not :buffer.
-    call feedkeys(' ', 'n')
-    return ''
+    " Note: the " \<bs>" mess is an attempt to overcome a problem with
+    " cabbrs not expanding.
+    call feedkeys(" \<bs>", 'n')
+    return ' '
   endif
   if !exists('vimple#bl')
     call vimple#ls#new()
