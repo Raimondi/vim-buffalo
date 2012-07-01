@@ -62,16 +62,18 @@ function! s:buffalo(...)
   else
     " fnameescape() doesn't escape '.'
     " second escape of '\\' because enclosed in ""
-    let filter = 'fnamemodify(v:val["name"], ":p") =~ "'
+    let filter = 'fnamemodify(v:val["name"], ":p") =~? "'
           \ . escape(escape(fnameescape(partial), '.'), '\\') . '"'
   endif
   let bl = g:vimple#bl.filter(filter)
   if len(bl.buffers().to_l()) == 1
         \ && (!exists('g:buffalo_autoaccept') || g:buffalo_autoaccept)
     " Automagically accept the only match.
-    let cmd = matchstr(cmdline, cmdre . '\s\+')
-    let args = matchstr(cmdline, cmdre . '\s\+\zs.*') . char
-    let cmdline = "\<C-U>". cmd . escape(args, ' ') . "\<CR>\<CR>"
+    "let cmd = matchstr(cmdline, cmdre . '\s\+')
+    "let args = matchstr(cmdline, cmdre . '\s\+\zs.*') . char
+    "let cmdline = "\<C-U>". cmd . escape(args, ' ') . "\<CR>\<CR>"
+    " switch on buffer number to allow for case-insensitive buffer switching
+    let cmdline = "\<C-U>:b ". bl.buffers().to_l()[0]["number"] . "\<CR>\<CR>"
     call feedkeys(cmdline, 'n')
   elseif exists('g:buffalo_pretty') && g:buffalo_pretty
     " Use print() to display matching buffers.
