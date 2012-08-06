@@ -1,0 +1,74 @@
+*buffalo.txt*	For Vim version 7.3	Last change: 2012-03-23
+
+			VIM REFERENCE MANUAL	by Barry Arthur
+						and Israel Chauca
+
+Help on using the buffalo                                               *buffalo*
+
+1. Introduction					|buffalo-intro|
+2. Configuration				|buffalo-configuration|
+
+==============================================================================
+ 1. INTRODUCTION                                                  *buffalo-intro*
+
+The Buffalo is a minimalist buffer switcher. When activated, it displays a
+coloured buffer list and prompts for either a buffer number of partial buffer
+name. As soon as either is sufficient to uniquely identify a single file in
+the list it is automatically switched to, closing the buffalo interface.
+
+The default trigger for activating the buffalo is |<leader>|l but this can be
+changed by providing a map in |$MYVIMRC| to <plug>BuffaloTrigger, like so:
+>
+  nmap <unique><silent> <leader>b <Plug>BuffaloTrigger
+<
+to map it instead to <leader>b.
+
+==============================================================================
+ 2. CONFIGURATION                                         *buffalo-configuration*
+
+The following aspects of the buffalo's behaviour are configurable with entries
+like:
+>
+  let buffalo_autoaccept = 0
+<
+in your |$MYVIMRC|.
+
+Options:~
+
+'buffalo_aux_map'		Internal trigger. Only set this if the default
+				map of <C-G> clashes with another plugin or a
+				personal map of your making.
+				(String: <C-G>)
+
+'buffalo_autoaccept'		Automatically switch buffers when the
+				partially typed characters uniquely match a
+				single buffer. With this option disabled, you
+				have to press <Enter> manually to activate the
+				buffer switch.
+				(Boolean: enabled)
+
+'buffalo_pretty'		Shows the buffer list in colour.
+				(Boolean: enabled)
+
+'buffalo_buffer_numbers'	Allows for the switching of buffers based on
+				buffer numbers (in addition to partial buffer
+				names). With this disabled, only numbers within
+				buffer names are considered for matches.
+				(Boolean: enabled)
+
+Maps:~
+
+Override the defaults shown here by providing maps in |$MYVIMRC| like so:
+>
+  nmap <unique><silent> <leader>b <Plug>BuffaloTrigger
+<
+
+<Plug>BuffaloRecursive		Internal trigger, mapped to <C-G> by default.
+				This can either be altered through the
+				'buffalo_aux_map' variable or through a
+				<plug> map in your |$MYVIMRC|.
+
+<Plug>BuffaloTrigger		Buffalo activation trigger, mapped to <leader>l
+				by default.
+
+ vim:tw=78:ts=8:ft=help:norl:
