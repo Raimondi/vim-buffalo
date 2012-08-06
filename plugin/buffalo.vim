@@ -66,9 +66,6 @@ function! s:buffalo(...)
   if len(bl.buffers().to_l()) == 1
         \ && (!exists('g:buffalo_autoaccept') || g:buffalo_autoaccept)
     " Automagically accept the only match.
-    "let cmd = matchstr(cmdline, cmdre . '\s\+')
-    "let args = matchstr(cmdline, cmdre . '\s\+\zs.*') . char
-    "let cmdline = "\<C-U>". cmd . escape(args, ' ') . "\<CR>\<CR>"
     " switch on buffer number to allow for case-insensitive buffer switching
     let cmdline = "\<C-U>:b ". bl.buffers().to_l()[0]["number"] . "\<CR>\<CR>"
     call feedkeys(cmdline, 'n')
@@ -84,7 +81,6 @@ function! s:buffalo(...)
     " Use wild settings to display matching buffers.
     call feedkeys(char, 'n')
     " removed call to <c-d> to prevent stacking prints
-    "call feedkeys((len(bl.buffers().to_l()) == 0 ? '' : "\<C-D>").s:aux_map)
     call feedkeys(s:aux_map)
     return ""
   endif
