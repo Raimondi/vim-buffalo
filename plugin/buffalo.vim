@@ -25,6 +25,7 @@ let s:aux_map = exists('g:buffalo_aux_map') ? g:buffalo_aux_map : "\<C-G>"
 function! s:buffalo(...)
   let cmdline = getcmdline()
   let cmdre = '\C^b\%[uffer]\>'
+  let show_partial_matches = 0
   if cmdline !~ cmdre
     " The command is not :buffer.
     " Note: the " \<bs>" mess is an attempt to overcome a problem with
@@ -46,6 +47,11 @@ function! s:buffalo(...)
     " Cancel action with Esc.
     call feedkeys("\<C-U>\<Esc>", 't')
     return ''
+  endif
+  if char =~ '\t'
+    " Allow <tab> to show partial matches (calling ctrl-d)
+    let show_partial_matches = 1
+    let char = ''
   endif
   let partial = matchstr(cmdline, '^\a\+\s\+\zs.*')
         \ . (char =~'[[:cntrl:]]' ? '' : char)
@@ -80,7 +86,9 @@ function! s:buffalo(...)
   else
     " Use wild settings to display matching buffers.
     call feedkeys(char, 'n')
-    " removed call to <c-d> to prevent stacking prints
+    if show_partial_matches
+      call feedkeys((len(bl.buffers().to_l()) == 0 ? '' : "\<C-D>"))
+    endif
     call feedkeys(s:aux_map)
     return ""
   endif
