@@ -32,9 +32,6 @@ function! s:buffalo(...)
     call feedkeys(" \<bs>", 'n')
     return ' '
   endif
-  if !exists('vimple#bl')
-    call vimple#ls#new()
-  endif
   if !a:0
     " Just a space.
     call g:vimple#bl.update()
@@ -95,9 +92,6 @@ function! s:buffalo(...)
 endfunction
 
 function! s:buffalo_feed()
-  if !exists('vimple#bl')
-    call vimple#ls#new()
-  endif
   if !exists('g:buffalo_buffer_numbers') || g:buffalo_buffer_numbers == 1
     call feedkeys("redraw\<CR>:call vimple#bl.print()\<CR>:b\<Space>", 'n')
     call feedkeys("\<Space>\<BS>")
