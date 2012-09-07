@@ -75,6 +75,7 @@ function! s:buffalo(...)
     " switch on buffer number to allow for case-insensitive buffer switching
     let cmdline = "\<C-U>:b ". bl.buffers().to_l()[0]["number"] . "\<CR>\<CR>"
     call feedkeys(cmdline, 'n')
+    call feedkeys("\<Esc>:BuffaloConfirm\<CR>", 'n')
   elseif exists('g:buffalo_pretty') && g:buffalo_pretty
     " Use print() to display matching buffers.
     let cmdline = (empty(bl.buffers().to_l())
@@ -107,6 +108,7 @@ endfunction
 
 cnore <expr> <Plug>BuffaloRecursive <SID>buffalo(1)
 nnore <expr> <Plug>BuffaloTrigger   <SID>buffalo_feed()
+command! BuffaloConfirm let s:reply = '' | while s:reply != nr2char(13) | echon "\r" | echon 'Press "Enter" to continue.' | let s:reply = nr2char(getchar()) | endwhile | unlet! s:reply
 
 if !hasmapto('<SID>buffalo()')
   cmap <unique><silent><expr> <Space> <SID>buffalo()
