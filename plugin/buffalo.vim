@@ -75,7 +75,9 @@ function! s:buffalo(...)
     " switch on buffer number to allow for case-insensitive buffer switching
     let cmdline = "\<C-U>:b ". bl.buffers().to_l()[0]["number"] . "\<CR>\<CR>"
     call feedkeys(cmdline, 'n')
-    call feedkeys("\<Esc>:BuffaloConfirm\<CR>", 'n')
+    if (!exists('g:buffalo_autoaccept') || ! g:buffalo_autoaccept)
+      call feedkeys("\<Esc>:BuffaloConfirm\<CR>", 'n')
+    endif
   elseif exists('g:buffalo_pretty') && g:buffalo_pretty
     " Use print() to display matching buffers.
     let cmdline = (empty(bl.buffers().to_l())

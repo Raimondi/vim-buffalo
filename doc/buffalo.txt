@@ -45,7 +45,7 @@ Options:~
 				single buffer. With this option disabled, you
 				have to press <Enter> manually to activate the
 				buffer switch.
-				(Boolean: enabled)
+				(Boolean: disabled)
 
 'buffalo_pretty'		Shows the buffer list in colour.
 				(Boolean: enabled)
