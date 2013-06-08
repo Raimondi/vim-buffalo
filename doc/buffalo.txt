@@ -1,4 +1,4 @@
-*buffalo.txt*	For Vim version 7.3	Last change: 2012-03-23
+*buffalo.txt*	Plugin for efficiently navigating between buffers
 
 			VIM REFERENCE MANUAL	by Barry Arthur
 						and Israel Chauca
